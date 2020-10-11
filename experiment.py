@@ -177,14 +177,15 @@ def train_experiment(session, result, writer, last_step, max_steps, saver,
     save_step: How often to save the model ckpt.
   """
   step = 0
-  print(type(result))
-  print(result)
   for i in range(last_step, max_steps):
     step += 1
-    summary, _ = session.run([result.summary, result.train_op])
+    summary, _, correct = session.run([result.summary, result.train_op, result.correct])
     if i == 10:
-      print(type(summary))
+      print(type(summary), type(correct))
       print(summary)
+      print(correct)
+    print('step: {}, correct_percent: {}'.format(
+      step, correct / 128))
     writer.add_summary(summary, i)
     if (i + 1) % save_step == 0:
       saver.save(
