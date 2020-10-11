@@ -177,8 +177,8 @@ def train_experiment(session, result, writer, last_step, max_steps, saver,
     save_step: How often to save the model ckpt.
   """
   step = 0
-  fig_time = np.zeros([200])
-  fig_train = np.zeros([200])
+  fig_time = np.zeros([400])
+  fig_train = np.zeros([400])
   start_time = time.time()
   for i in range(last_step, max_steps):
     step += 1
@@ -191,8 +191,8 @@ def train_experiment(session, result, writer, last_step, max_steps, saver,
       fig_train[cnt] = correct / 128
       saver.save(
           session, os.path.join(summary_dir, 'model.ckpt'), global_step=i + 1)
-  fig_time_str = 'mnist_time.npy'
-  fig_train_str = 'mnist_train.npy'
+  fig_time_str = 'cifar10_time.npy'
+  fig_train_str = 'cifar10_train.npy'
   np.save(fig_time_str, fig_time)
   np.save(fig_train_str, fig_train)
 
