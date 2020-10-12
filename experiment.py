@@ -177,22 +177,22 @@ def train_experiment(session, result, writer, last_step, max_steps, saver,
     save_step: How often to save the model ckpt.
   """
   step = 0
-  fig_time = np.zeros([400])
-  fig_train = np.zeros([400])
+  fig_time = np.zeros([200])
+  fig_train = np.zeros([200])
   start_time = time.time()
   for i in range(last_step, max_steps):
     step += 1
     summary, _, correct = session.run([result.summary, result.train_op, result.correct])
     writer.add_summary(summary, i)
     if (i + 1) % save_step == 0:
-      cnt = (int)((i + 1) / save_step)
+      cnt = (int)((i + 1) / save_step - 1)
       end_time = time.time()
       fig_time[cnt] = end_time - start_time
       fig_train[cnt] = correct / 128
       saver.save(
           session, os.path.join(summary_dir, 'model.ckpt'), global_step=i + 1)
-  fig_time_str = 'cifar10_time.npy'
-  fig_train_str = 'cifar10_train.npy'
+  fig_time_str = 'mnist_time.npy'
+  fig_train_str = 'mnist_train.npy'
   np.save(fig_time_str, fig_time)
   np.save(fig_train_str, fig_train)
 
@@ -328,7 +328,7 @@ def train(hparams, summary_dir, num_gpus, model_type, max_steps, save_step,
   summary_dir += '/train/'
   with tf.Graph().as_default():
     # Build model
-    features = get_features('train', 128, num_gpus, data_dir, num_targets,
+    features = get_features('train', 32, num_gpus, data_dir, num_targets,
                             dataset, validate)
     model = models[model_type](hparams)
     result, _ = model.multi_gpu(features, num_gpus)
