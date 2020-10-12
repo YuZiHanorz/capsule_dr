@@ -330,6 +330,9 @@ def train(hparams, summary_dir, num_gpus, model_type, max_steps, save_step,
     # Build model
     features = get_features('train', 32, num_gpus, data_dir, num_targets,
                             dataset, validate)
+    '''print('hahaha')
+    print(type(features))
+    print(features)'''
     model = models[model_type](hparams)
     result, _ = model.multi_gpu(features, num_gpus)
     # Print stats
