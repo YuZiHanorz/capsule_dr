@@ -188,11 +188,11 @@ def train_experiment(session, result, writer, last_step, max_steps, saver,
       cnt = (int)((i + 1) / save_step - 1)
       end_time = time.time()
       fig_time[cnt] = end_time - start_time
-      fig_train[cnt] = correct / 128
+      fig_train[cnt] = correct / 32
       saver.save(
           session, os.path.join(summary_dir, 'model.ckpt'), global_step=i + 1)
-  fig_time_str = 'mnist_time.npy'
-  fig_train_str = 'mnist_train.npy'
+  fig_time_str = 'cifar10_time.npy'
+  fig_train_str = 'cifar10_train.npy'
   np.save(fig_time_str, fig_time)
   np.save(fig_train_str, fig_train)
 
